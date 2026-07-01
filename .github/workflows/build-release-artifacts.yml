@@ -1,0 +1,119 @@
+name: Build Release Artifacts
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  android-apk:
+    name: Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - run: flutter pub get
+      - run: flutter build apk --release
+
+      - name: Upload Android APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: arcanus-ledger-android-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+  macos:
+    name: macOS
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - run: flutter config --enable-macos-desktop
+      - run: flutter pub get
+      - run: flutter build macos --release
+
+      - name: Zip macOS app
+        run: ditto -c -k --keepParent build/macos/Build/Products/Release/*.app arcanus-ledger-macos.zip
+
+      - name: Upload macOS app
+        uses: actions/upload-artifact@v4
+        with:
+          name: arcanus-ledger-macos
+          path: arcanus-ledger-macos.zip
+
+  windows:
+    name: Windows
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - run: flutter config --enable-windows-desktop
+      - run: flutter pub get
+      - run: flutter build windows --release
+
+      - name: Zip Windows app
+        run: |
+          Compress-Archive -Path build/windows/x64/runner/Release/* `
+            -DestinationPath arcanus-ledger-windows.zip
+
+      - name: Upload Windows app
+        uses: actions/upload-artifact@v4
+        with:
+          name: arcanus-ledger-windows
+          path: arcanus-ledger-windows.zip
+
+  linux:
+    name: Linux
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Install Linux build dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            clang \
+            cmake \
+            ninja-build \
+            pkg-config \
+            libgtk-3-dev \
+            liblzma-dev \
+            libsecret-1-dev
+
+      - run: flutter config --enable-linux-desktop
+      - run: flutter pub get
+      - run: flutter build linux --release
+
+      - name: Package Linux app
+        run: tar -czf arcanus-ledger-linux.tar.gz -C build/linux/x64/release bundle
+
+      - name: Upload Linux app
+        uses: actions/upload-artifact@v4
+        with:
+          name: arcanus-ledger-linux
+          path: arcanus-ledger-linux.tar.gz

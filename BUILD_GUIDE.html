@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arcanus Ledger Build Guide</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      margin: 0;
+      color: #172033;
+      background: #f5f7fb;
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+    h1, h2 {
+      line-height: 1.15;
+    }
+    section {
+      background: #fff;
+      border: 1px solid #dde4ee;
+      border-radius: 8px;
+      padding: 24px;
+      margin: 18px 0;
+    }
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    pre {
+      overflow-x: auto;
+      background: #101828;
+      color: #f9fafb;
+      padding: 16px;
+      border-radius: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      text-align: left;
+      border-bottom: 1px solid #dde4ee;
+      padding: 10px;
+      vertical-align: top;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Arcanus Ledger Build Guide</h1>
+    <p>This project intentionally produces only Android APK, macOS, Windows, and Linux release artifacts.</p>
+
+    <section>
+      <h2>Allowed Artifacts</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Target</th>
+            <th>Build Command</th>
+            <th>Artifact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Android APK</td>
+            <td><code>flutter build apk --release</code></td>
+            <td><code>build/app/outputs/flutter-apk/app-release.apk</code></td>
+          </tr>
+          <tr>
+            <td>macOS</td>
+            <td><code>flutter build macos --release</code></td>
+            <td><code>arcanus-ledger-macos.zip</code></td>
+          </tr>
+          <tr>
+            <td>Windows</td>
+            <td><code>flutter build windows --release</code></td>
+            <td><code>arcanus-ledger-windows.zip</code></td>
+          </tr>
+          <tr>
+            <td>Linux</td>
+            <td><code>flutter build linux --release</code></td>
+            <td><code>arcanus-ledger-linux.tar.gz</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Local Build Script</h2>
+      <p>Run the project build script from the repository root:</p>
+      <pre><code>./build.sh</code></pre>
+      <p>The script defaults to Android plus the desktop artifact supported by the current host: macOS on macOS, Windows on Windows, Linux on Linux. To choose targets explicitly, set <code>BUILD_TARGETS</code> to a comma-separated subset of <code>android,macos,windows,linux</code>.</p>
+      <p>The script creates portable storage only under <code>Arcanus Ledger/Data</code>, with SQLite stored in <code>Arcanus Ledger/Data/database/recordkeep_db.sqlite</code>.</p>
+    </section>
+
+    <section>
+      <h2>GitHub Release Builds</h2>
+      <p>Push a version tag to run the release workflow:</p>
+      <pre><code>git tag v1.0.0
+git push origin v1.0.0</code></pre>
+      <p>The workflow uploads only <code>arcanus-ledger-android-apk</code>, <code>arcanus-ledger-macos</code>, <code>arcanus-ledger-windows</code>, and <code>arcanus-ledger-linux</code>.</p>
+    </section>
+  </main>
+</body>
+</html>

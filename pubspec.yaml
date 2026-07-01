@@ -1,0 +1,63 @@
+name: recordkeep
+description: Arcanus Ledger - secure business ledger and finance management.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Database stack (supports modern Flutter & Android)
+  drift: ^2.18.0
+  sqlite3: ^3.3.1
+  sqlite3_flutter_libs: ^0.6.0+eol
+
+  # Storage & utilities
+  path_provider: ^2.1.3
+  path: ^1.8.3
+  shared_preferences: ^2.2.2
+
+  # Missing packages (required by your code)
+  intl: ^0.20.2
+  universal_html: ^2.2.4
+  flutter_secure_storage: ^10.0.0
+  csv: ^6.0.0
+  async: ^2.11.0
+
+  # File picker
+  file_picker: ^8.3.7
+  rxdart: ^0.28.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+  # Drift code generators
+  drift_dev: ^2.18.0
+  build_runner: ^2.4.11
+  
+  # Icon generator
+  flutter_launcher_icons: ^0.14.4
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/recordkeep.png
+    - assets/logo.png
+    - assets/arcanus_wallpaper.png
+    - assets/arcanus_icon.png
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  macos:
+    generate: true
+    image_path: "assets/arcanus_icon.png"
+  windows:
+    generate: true
+    image_path: "assets/arcanus_icon.png"
+  image_path: "assets/arcanus_icon.png"
