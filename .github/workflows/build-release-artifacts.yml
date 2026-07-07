@@ -29,7 +29,7 @@ jobs:
       - name: Upload Android APK
         uses: actions/upload-artifact@v4
         with:
-          name: arcanus-ledger-android-apk
+          name: arcanus-ledger-apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
   macos:
